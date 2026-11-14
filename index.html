@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEBULA — interactive WebGL particle galaxy</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>" />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; overflow: hidden; background: #050510; }
+      body { font-family: "Inter", "Segoe UI", system-ui, sans-serif; color: #e8ecf8; }
+      #scene { position: fixed; inset: 0; display: block; }
+      .ui {
+        position: fixed;
+        pointer-events: none;
+        user-select: none;
+      }
+      .ui > * { pointer-events: auto; }
+      #title {
+        top: 34px; left: 40px;
+      }
+      #title h1 {
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 800;
+        letter-spacing: 0.35em;
+        background: linear-gradient(90deg, #8ec5ff, #e6a1ff, #ffd6a5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #title p {
+        margin-top: 6px;
+        font-size: 13px;
+        color: rgba(232, 236, 248, 0.55);
+        letter-spacing: 0.12em;
+      }
+      #controls {
+        bottom: 30px; left: 40px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      button {
+        background: rgba(20, 22, 40, 0.55);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(140, 160, 255, 0.25);
+        color: #e8ecf8;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      }
+      button:hover { border-color: rgba(180, 160, 255, 0.7); transform: translateY(-1px); }
+      button.active { background: rgba(124, 108, 255, 0.35); border-color: #7c6cff; }
+      #hint {
+        bottom: 34px; right: 40px;
+        font-size: 12px;
+        color: rgba(232, 236, 248, 0.4);
+        text-align: right;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+      }
+      #fps {
+        top: 34px; right: 40px;
+        font: 11px ui-monospace, monospace;
+        color: rgba(232, 236, 248, 0.35);
+      }
+      @media (max-width: 640px) {
+        #title { top: 20px; left: 20px; }
+        #controls { left: 20px; bottom: 20px; }
+        #hint { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+
+    <div class="ui" id="title">
+      <h1>NEBULA</h1>
+      <p>25,000 particles · GPU shaders · drag to orbit · scroll to zoom</p>
+    </div>
+
+    <div class="ui" id="fps"></div>
+
+    <div class="ui" id="controls">
+      <button id="audioBtn">🎙 Audio-reactive: off</button>
+      <button id="spinBtn" class="active">✧ Auto-rotate</button>
+    </div>
+
+    <div class="ui" id="hint">
+      move cursor — bend spacetime<br />
+      drag — orbit · scroll — zoom
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
